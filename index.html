@@ -26,6 +26,23 @@
 [data-theme="mint"]{--accent:#4fd1a5;--break:#ffc857}
 [data-theme="crimson"]{--accent:#ff4d5e;--break:#6cc4ff}
 [data-theme="mono"]{--accent:#e8e4da;--break:#9a9aa6}
+[data-theme="night"]{--bg:#05060a;--bg2:#0d1220;--card:#121318;--card2:#0e0f13;--ink:#e9e6dc;--muted:#7b8194;--accent:#ffcc1a;--break:#7fa7d9;--line:rgba(0,0,0,.8)}
+[data-theme="night"] body{background:linear-gradient(180deg,#0b1222 0%,#070910 55%,#040507 100%)}
+[data-theme="night"] .h-top,[data-theme="night"] .f-top{background:linear-gradient(180deg,#1e2028,#121318)}
+[data-theme="night"] .h-bot,[data-theme="night"] .f-bot{background:linear-gradient(180deg,#0f1014,#08090c)}
+[data-theme="night"] .card{box-shadow:0 0 0 1px rgba(255,204,26,.10),0 calc(var(--ch)*.08) calc(var(--ch)*.22) rgba(0,0,0,.75)}
+[data-theme="night"] .half span{text-shadow:0 0 calc(var(--ch)*.06) rgba(255,204,26,.08)}
+[data-theme="night"] .ctl.main{color:#05060a}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;display:none;overflow:hidden}
+[data-theme="night"] .sky{display:block}
+.sky .beam{position:absolute;left:50%;bottom:8vh;width:22vmax;height:120vmax;margin-left:-11vmax;transform-origin:50% 100%;
+  background:linear-gradient(0deg,rgba(255,236,170,.10),rgba(255,236,170,.035) 60%,transparent);clip-path:polygon(44% 100%,56% 100%,100% 0,0 0);
+  filter:blur(6px);animation:sweep 18s ease-in-out infinite alternate}
+.sky .beam.b2{left:18%;animation-duration:24s;animation-delay:-7s;opacity:.6}
+@keyframes sweep{from{transform:rotate(-28deg)}to{transform:rotate(26deg)}}
+.sky .moon{position:absolute;right:9vw;top:9vh;width:9vmin;height:9vmin;border-radius:50%;background:radial-gradient(circle at 40% 40%,#f3ecd2,#c9c0a2 70%);box-shadow:0 0 60px 10px rgba(243,236,210,.12);opacity:.55}
+.sky .stars{position:absolute;inset:0 0 40% 0;background-image:radial-gradient(1px 1px at 12% 18%,#fff8,transparent),radial-gradient(1px 1px at 33% 9%,#fff6,transparent),radial-gradient(1px 1px at 58% 22%,#fff5,transparent),radial-gradient(1px 1px at 76% 31%,#fff6,transparent),radial-gradient(1px 1px at 88% 12%,#fff5,transparent),radial-gradient(1px 1px at 22% 36%,#fff4,transparent),radial-gradient(1px 1px at 47% 40%,#fff4,transparent)}
+.sky svg{position:absolute;left:0;bottom:0;width:100%;height:30vh}
 [data-theme="paper"]{--bg:#ece8df;--bg2:#e2ddd2;--card:#2a2a30;--card2:#25252a;--ink:#f6f2ea;--muted:#6f6b63;--accent:#d9622b;--break:#2f9e7a}
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -34,12 +51,13 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 body{background:radial-gradient(120% 90% at 50% 0%, var(--bg2) 0%, var(--bg) 60%);transition:background .6s}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
 
-.app{position:fixed;inset:0;padding:calc(var(--safe-t) + 18px) calc(var(--safe-r) + 22px) calc(var(--safe-b) + 18px) calc(var(--safe-l) + 22px);
+.app{position:fixed;inset:0;z-index:1;padding:calc(var(--safe-t) + 18px) calc(var(--safe-r) + 22px) calc(var(--safe-b) + 18px) calc(var(--safe-l) + 22px);
   display:grid;grid-template-rows:auto 1fr auto;align-items:center;justify-items:center}
 
 /* top bar */
 .top{width:100%;display:flex;justify-content:space-between;align-items:center;transition:opacity .5s}
 .seg{display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);border-radius:999px;padding:4px;gap:2px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+[data-theme="night"] .seg{background:rgba(10,12,18,.6)}
 [data-theme="paper"] .seg{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08)}
 .seg button{min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:16px;color:var(--muted);transition:all .25s}
 .seg button.on{background:var(--ink);color:var(--bg)}
@@ -150,6 +168,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-
 </style>
 </head>
 <body data-theme="amber">
+<div class="sky" aria-hidden="true"><div class="stars"></div><div class="moon"></div><div class="beam"></div><div class="beam b2"></div><svg viewBox="0 0 1000 300" preserveAspectRatio="none"><g fill="#0b0f1a"><rect x="0" y="138" width="37" height="162"/><rect x="36" y="178" width="33" height="122"/><rect x="50" y="139" width="4" height="40"/><rect x="68" y="150" width="57" height="150"/><rect x="124" y="198" width="42" height="102"/><rect x="165" y="155" width="53" height="145"/><rect x="217" y="121" width="29" height="179"/><rect x="245" y="135" width="43" height="165"/><rect x="287" y="207" width="49" height="93"/><rect x="309" y="172" width="4" height="40"/><rect x="335" y="209" width="63" height="91"/><rect x="397" y="123" width="53" height="177"/><rect x="421" y="95" width="4" height="40"/><rect x="449" y="143" width="30" height="157"/><rect x="461" y="114" width="4" height="40"/><rect x="478" y="140" width="60" height="160"/><rect x="505" y="118" width="4" height="40"/><rect x="537" y="113" width="43" height="187"/><rect x="579" y="208" width="47" height="92"/><rect x="625" y="128" width="64" height="172"/><rect x="654" y="93" width="4" height="40"/><rect x="688" y="195" width="47" height="105"/><rect x="734" y="156" width="61" height="144"/><rect x="794" y="186" width="71" height="114"/><rect x="864" y="147" width="66" height="153"/><rect x="929" y="160" width="61" height="140"/><rect x="989" y="149" width="31" height="151"/><rect x="1002" y="109" width="4" height="40"/></g><g fill="#05070c"><rect x="0" y="249" width="32" height="51"/><rect x="13" y="229" width="4" height="40"/><rect x="31" y="186" width="31" height="114"/><rect x="61" y="256" width="46" height="44"/><rect x="106" y="239" width="62" height="61"/><rect x="167" y="219" width="40" height="81"/><rect x="184" y="188" width="4" height="40"/><rect x="206" y="163" width="62" height="137"/><rect x="267" y="177" width="58" height="123"/><rect x="324" y="201" width="58" height="99"/><rect x="381" y="221" width="59" height="79"/><rect x="439" y="198" width="42" height="102"/><rect x="480" y="253" width="35" height="47"/><rect x="514" y="185" width="46" height="115"/><rect x="534" y="167" width="4" height="40"/><rect x="559" y="214" width="52" height="86"/><rect x="582" y="178" width="4" height="40"/><rect x="610" y="246" width="34" height="54"/><rect x="643" y="167" width="31" height="133"/><rect x="673" y="194" width="40" height="106"/><rect x="712" y="216" width="29" height="84"/><rect x="740" y="217" width="47" height="83"/><rect x="786" y="150" width="54" height="150"/><rect x="839" y="249" width="43" height="51"/><rect x="881" y="194" width="37" height="106"/><rect x="917" y="183" width="45" height="117"/><rect x="961" y="243" width="64" height="57"/></g><g fill="#ffcc1a" opacity=".55"><rect x="12" y="276" width="3" height="4"/><rect x="10" y="276" width="3" height="4"/><rect x="47" y="259" width="3" height="4"/><rect x="46" y="263" width="3" height="4"/><rect x="49" y="258" width="3" height="4"/><rect x="94" y="274" width="3" height="4"/><rect x="89" y="277" width="3" height="4"/><rect x="124" y="248" width="3" height="4"/><rect x="182" y="259" width="3" height="4"/><rect x="192" y="262" width="3" height="4"/><rect x="176" y="255" width="3" height="4"/><rect x="196" y="253" width="3" height="4"/><rect x="232" y="217" width="3" height="4"/><rect x="238" y="191" width="3" height="4"/><rect x="258" y="222" width="3" height="4"/><rect x="255" y="265" width="3" height="4"/><rect x="288" y="248" width="3" height="4"/><rect x="303" y="250" width="3" height="4"/><rect x="293" y="269" width="3" height="4"/><rect x="357" y="271" width="3" height="4"/><rect x="370" y="237" width="3" height="4"/><rect x="348" y="230" width="3" height="4"/><rect x="367" y="243" width="3" height="4"/><rect x="420" y="262" width="3" height="4"/><rect x="417" y="270" width="3" height="4"/><rect x="424" y="266" width="3" height="4"/><rect x="411" y="248" width="3" height="4"/><rect x="471" y="215" width="3" height="4"/><rect x="468" y="249" width="3" height="4"/><rect x="466" y="207" width="3" height="4"/><rect x="472" y="230" width="3" height="4"/><rect x="526" y="227" width="3" height="4"/><rect x="533" y="219" width="3" height="4"/><rect x="521" y="247" width="3" height="4"/><rect x="520" y="200" width="3" height="4"/><rect x="655" y="191" width="3" height="4"/><rect x="652" y="269" width="3" height="4"/><rect x="695" y="207" width="3" height="4"/><rect x="702" y="233" width="3" height="4"/><rect x="681" y="206" width="3" height="4"/><rect x="772" y="260" width="3" height="4"/><rect x="746" y="241" width="3" height="4"/><rect x="820" y="280" width="3" height="4"/><rect x="869" y="260" width="3" height="4"/><rect x="843" y="271" width="3" height="4"/><rect x="900" y="267" width="3" height="4"/><rect x="895" y="220" width="3" height="4"/><rect x="895" y="235" width="3" height="4"/><rect x="967" y="255" width="3" height="4"/><rect x="975" y="256" width="3" height="4"/></g></svg></div>
 <div class="app" id="app">
   <header class="top">
     <div class="seg" role="tablist">
@@ -219,7 +238,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-
 (() => {
 const $ = id => document.getElementById(id);
 const DEF = {focus:25, short:5, long:15, rounds:4, autoBreak:true, autoFocus:false, sound:true, h24:false, secs:true, autoHide:true, theme:'amber', mode:'clock'};
-const THEMES = {amber:'#ff8a3d', ice:'#6cc4ff', mint:'#4fd1a5', crimson:'#ff4d5e', mono:'#e8e4da', paper:'#ece8df'};
+const THEMES = {night:'#ffcc1a', amber:'#ff8a3d', ice:'#6cc4ff', mint:'#4fd1a5', crimson:'#ff4d5e', mono:'#e8e4da', paper:'#ece8df'};
 let S = {...DEF};
 try { Object.assign(S, JSON.parse(localStorage.getItem('flip.settings') || '{}')); } catch(e){}
 const save = () => { try { localStorage.setItem('flip.settings', JSON.stringify(S)); } catch(e){} };
@@ -419,7 +438,7 @@ function syncSettingsUI(){
   document.querySelectorAll('.tog').forEach(t => t.classList.toggle('on', !!S[t.dataset.k]));
   document.querySelectorAll('#themes button').forEach(b => b.classList.toggle('on', b.dataset.t === S.theme));
   document.body.dataset.theme = S.theme;
-  document.querySelector('meta[name=theme-color]').content = S.theme === 'paper' ? '#ece8df' : '#0b0b0e';
+  document.querySelector('meta[name=theme-color]').content = S.theme === 'paper' ? '#ece8df' : S.theme === 'night' ? '#05060a' : '#0b0b0e';
 }
 document.querySelectorAll('.step').forEach(st => {
   const [minus, , plus] = st.children; const k = st.dataset.k, lo = +st.dataset.min, hi = +st.dataset.max;
@@ -439,7 +458,7 @@ document.querySelectorAll('.step').forEach(st => {
 document.querySelectorAll('.tog').forEach(t => t.onclick = () => { S[t.dataset.k] = !S[t.dataset.k]; save(); syncSettingsUI(); layoutKey=''; render(false); });
 Object.entries(THEMES).forEach(([name, col]) => {
   const b = document.createElement('button'); b.dataset.t = name; b.title = name; b.style.background = 'rgba(255,255,255,.08)';
-  b.innerHTML = `<span style="background:${name==='paper' ? 'linear-gradient(135deg,#ece8df 50%,#d9622b 50%)' : `linear-gradient(135deg,${col} 50%,#1c1c22 50%)`}"></span>`;
+  b.innerHTML = `<span style="background:${name==='night' ? 'linear-gradient(135deg,#ffcc1a 50%,#05060a 50%)' : name==='paper' ? 'linear-gradient(135deg,#ece8df 50%,#d9622b 50%)' : `linear-gradient(135deg,${col} 50%,#1c1c22 50%)`}"></span>`;
   b.onclick = () => { S.theme = name; save(); syncSettingsUI(); };
   $('themes').appendChild(b);
 });
