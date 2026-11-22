@@ -837,6 +837,21 @@ function initSync(){
   renderSyncBar();
 }
 window.initSync = initSync;
+
+/* ---------- import exam dates from a link: #import={"exams":{"Subject":"YYYY-MM-DD"}} ---------- */
+(function importFromLink(){
+  const m = location.hash.match(/^#import=(.+)$/); if (!m) return;
+  history.replaceState(null, '', location.pathname);
+  try {
+    const d = JSON.parse(decodeURIComponent(m[1])); let n = 0;
+    Object.entries(d.exams || {}).forEach(([name, date]) => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+      const subj = addSubject(String(name)); if (!subj) return;
+      S.exams[subj] = date; n++;
+    });
+    if (n){ markMeta(); renderMySubj(); render(false); setTimeout(() => { renderStats(); openSheet('stats'); toast(`Added ${n} exam date${n>1?'s':''}`); }, 400); }
+  } catch(e){ toast('That import link didn’t work'); }
+})();
 setInterval(() => { if (user && !document.hidden) sync(); }, 120000);
 document.addEventListener('visibilitychange', () => { if (user) document.hidden ? sync() : scheduleSync(300); });
 addEventListener('online', () => { if (user) sync(); });
