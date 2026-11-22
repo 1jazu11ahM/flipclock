@@ -136,7 +136,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-
 .ctl.main.brk{background:var(--break);box-shadow:0 10px 30px -8px var(--break)}
 .ctl.main svg{width:34px;height:34px}
 .hidden{display:none!important}
-.idle .top,.idle .controls,.idle .meta.fade{opacity:0;pointer-events:none}
+.label,.dots,.subj,.today,.date{transition:opacity .6s}
+.idle .top,.idle .controls,.idle .label,.idle .dots,.idle .subj,.idle .today,.idle .date{opacity:0;pointer-events:none}
+.idle{cursor:none}
 
 /* settings sheet */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
@@ -504,8 +506,8 @@ const dayKey = t => { const d = new Date(t); return d.getFullYear()+'-'+(d.getMo
 const fmt = sec => { const m = Math.round(sec/60); if (m < 60) return m + 'm'; const h = Math.floor(m/60), r = m % 60; return h + 'h' + (r ? ' ' + r + 'm' : ''); };
 function secsOn(key){ let t = LOG.reduce((a,e) => a + (dayKey(e.t) === key ? e.s : 0), 0); if (key === dayKey(Date.now())) t += Math.floor(focusElapsed()/1000); return t; }
 
-function start(){ unlockAudio(); if (P.running) return; P.running = true; P.endAt = Date.now() + P.remain; if (!wantAwake) setAwake(true, true); savePomo(); render(); }
-function pause(){ if (!P.running) return; P.remain = remaining(); P.running = false; savePomo(); render(); }
+function start(){ unlockAudio(); if (P.running) return; P.running = true; P.endAt = Date.now() + P.remain; if (!wantAwake) setAwake(true, true); savePomo(); render(); poke(); }
+function pause(){ if (!P.running) return; P.remain = remaining(); P.running = false; savePomo(); render(); poke(); }
 function reset(){ if (P.phase === 'focus') logFocus(); P.running = false; P.remain = dur(P.phase); savePomo(); render(); }
 function nextPhase(finished){
   if (P.phase === 'focus'){ logFocus(); if (finished) P.done++; P.phase = (P.done>0 && P.done % S.rounds === 0) ? 'long' : 'short'; }
