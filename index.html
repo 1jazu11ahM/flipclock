@@ -508,7 +508,7 @@ function secsOn(key){ let t = LOG.reduce((a,e) => a + (dayKey(e.t) === key ? e.s
 
 function start(){ unlockAudio(); if (P.running) return; P.running = true; P.endAt = Date.now() + P.remain; if (!wantAwake) setAwake(true, true); savePomo(); render(); poke(); }
 function pause(){ if (!P.running) return; P.remain = remaining(); P.running = false; savePomo(); render(); poke(); }
-function reset(){ if (P.phase === 'focus') logFocus(); P.running = false; P.remain = dur(P.phase); savePomo(); render(); }
+function reset(){ if (P.phase === 'focus') logFocus(); P.running = false; P.remain = dur(P.phase); savePomo(); render(); poke(); }
 function nextPhase(finished){
   if (P.phase === 'focus'){ logFocus(); if (finished) P.done++; P.phase = (P.done>0 && P.done % S.rounds === 0) ? 'long' : 'short'; }
   else { if (P.phase === 'long') P.done = 0; P.phase = 'focus'; }
@@ -522,7 +522,7 @@ function complete(){
   chime(was === 'focus' ? 'focus' : 'break');
   toast(was === 'focus' ? (P.phase==='long' ? 'Great work — take a long break' : 'Focus done — take a break') : 'Break over — back to focus');
   if (S.mode !== 'pomo') setMode('pomo');
-  render();
+  render(); poke();
 }
 
 /* ---------- render ---------- */
@@ -590,14 +590,14 @@ $('tabClock').onclick = () => setMode('clock');
 $('tabPomo').onclick = () => { unlockAudio(); setMode('pomo'); };
 $('btnPlay').onclick = () => P.running ? pause() : start();
 $('btnReset').onclick = () => { unlockAudio(); reset(); };
-$('btnSkip').onclick = () => { unlockAudio(); nextPhase(false); render(); };
+$('btnSkip').onclick = () => { unlockAudio(); nextPhase(false); render(); poke(); };
 $('btnAwake').onclick = () => setAwake(!wantAwake);
 
 // auto-hide chrome after inactivity
 let idleT = null;
 function poke(){
   $('app').classList.remove('idle'); clearTimeout(idleT);
-  if (S.autoHide && !document.body.dataset.sheet) idleT = setTimeout(() => $('app').classList.add('idle'), S.mode === 'pomo' && !P.running ? 12000 : 5000);
+  if (S.autoHide && !document.body.dataset.sheet && !(S.mode === 'pomo' && !P.running)) idleT = setTimeout(() => $('app').classList.add('idle'), 5000);
 }
 ['pointerdown','keydown'].forEach(ev => addEventListener(ev, poke, {passive:true}));
 
@@ -858,7 +858,7 @@ addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
   const k = e.key.toLowerCase();
   if (k === ' '){ e.preventDefault(); if (S.mode !== 'pomo') setMode('pomo'); P.running ? pause() : start(); }
-  else if (k === 'r'){ reset(); } else if (k === 's'){ nextPhase(false); render(); }
+  else if (k === 'r'){ reset(); } else if (k === 's'){ nextPhase(false); render(); poke(); }
   else if (k === 'c'){ setMode('clock'); } else if (k === 'p'){ setMode('pomo'); }
   else if (k === 'escape'){ openSheet(false); }
   else if (k === 't'){ renderStats(); openSheet('stats'); }
