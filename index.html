@@ -760,7 +760,8 @@ const SB_URL = 'https://qwhdrdbryslzpjoewvli.supabase.co', SB_KEY = 'sb_publisha
 const APP_URL = location.origin + location.pathname;
 let sb = null, user = null, syncState = 'off', lastSync = 0, inSync = false, syncAgain = false, syncT = null;
 function scheduleSync(ms=1500){ if (!user) return; clearTimeout(syncT); syncT = setTimeout(sync, ms); }
-function localData(){ return { log: LOG, del: DEL, meta: { subjects: S.subjects, exams: S.exams, goal: S.goal, m: S.metaM || 0 } }; }
+const POMO_KEYS = ['focus','short','long','rounds','autoBreak','autoFocus','sound','askNotes'];
+function localData(){ const pomo = {}; POMO_KEYS.forEach(k => pomo[k] = S[k]); return { log: LOG, del: DEL, meta: { subjects: S.subjects, exams: S.exams, goal: S.goal, pomo, m: S.metaM || 0 } }; }
 function merge(a, b){
   const del = {...(a.del||{})}; Object.entries(b.del||{}).forEach(([k,v]) => { del[k] = Math.max(del[k]||0, v); });
   const by = {}; [...(a.log||[]), ...(b.log||[])].forEach(e => { if (!e || !e.id) return; const o = by[e.id]; if (!o || (e.m||0) > (o.m||0)) by[e.id] = e; });
@@ -781,6 +782,11 @@ async function sync(){
     LOG = merged.log; DEL = merged.del;
     if (merged.meta && (merged.meta.m||0) >= (S.metaM||0) && merged.meta !== localData().meta){
       S.subjects = merged.meta.subjects || []; S.exams = merged.meta.exams || {}; if (merged.meta.goal) S.goal = merged.meta.goal; S.metaM = merged.meta.m || 0;
+      if (merged.meta.pomo){
+        const before = dur(P.phase), idle = !P.running && P.remain === before;
+        POMO_KEYS.forEach(k => { if (merged.meta.pomo[k] !== undefined) S[k] = merged.meta.pomo[k]; });
+        if (idle && dur(P.phase) !== before){ P.remain = dur(P.phase); P.sessDur = dur(P.phase); savePomo(); }
+      }
     }
     try { localStorage.setItem('flip.log', JSON.stringify(LOG)); localStorage.setItem('flip.del', JSON.stringify(DEL)); } catch(e){}
     save();
@@ -857,6 +863,7 @@ document.querySelectorAll('.step').forEach(st => {
   const bump = d => {
     S[k] = Math.min(hi, Math.max(lo, S[k] + d*(+st.dataset.inc || 1))); save(); syncSettingsUI();
     if (k === 'goal'){ markMeta(); renderStats(); return; }
+    if (POMO_KEYS.includes(k)) markMeta();
     if (!P.running && k === P.phase){ if (k === 'focus') logFocus(); P.remain = dur(P.phase); P.sessDur = dur(P.phase); }
     savePomo(); render(false);
   };
@@ -868,7 +875,7 @@ document.querySelectorAll('.step').forEach(st => {
     ['pointerup','pointerleave','pointercancel'].forEach(ev => btn.addEventListener(ev, stop));
   });
 });
-document.querySelectorAll('.tog').forEach(t => t.onclick = () => { S[t.dataset.k] = !S[t.dataset.k]; save(); syncSettingsUI(); layoutKey=''; render(false); });
+document.querySelectorAll('.tog').forEach(t => t.onclick = () => { S[t.dataset.k] = !S[t.dataset.k]; save(); if (POMO_KEYS.includes(t.dataset.k)) markMeta(); syncSettingsUI(); layoutKey=''; render(false); });
 Object.entries(THEMES).forEach(([name, col]) => {
   const b = document.createElement('button'); b.dataset.t = name; b.title = name; b.style.background = 'rgba(255,255,255,.08)';
   b.innerHTML = `<span style="background:${name==='night' ? 'linear-gradient(135deg,#ffcc1a 50%,#05060a 50%)' : name==='paper' ? 'linear-gradient(135deg,#ece8df 50%,#d9622b 50%)' : `linear-gradient(135deg,${col} 50%,#1c1c22 50%)`}"></span>`;
