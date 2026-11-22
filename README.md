@@ -7,4 +7,5 @@ Stylish flip clock with a built-in Pomodoro timer, optimized for iPad.
 - Pomodoro: focus/short/long breaks, session dots, progress bar, chime, auto-start
 - Keeps the iPad awake while running; 6 themes; works offline
 - Study tracking: subjects, daily goal ring, 7-day chart, streak, recent sessions
+- Session notes, exam countdowns, cloud sync via Supabase (run supabase-setup.sql once)
 - Keyboard: T stats, Space start/pause, R reset, S skip, C/P switch mode
