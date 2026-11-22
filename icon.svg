@@ -10,7 +10,7 @@
  <symbol id="bat" viewBox="0 0 64 40"><path d="M29 20 L14 4 L4 9 L9 14 L12 13 L15 19 L19 18 L22 24 L28 27.5 Q32 31 36 27.5 L42 25 L45 20 L49 21 L52 15 L55 16 L61 12 L51 6 L35 20 Q35.5 17.5 34.4 15.6 L35.2 10.6 L32.9 14.2 Q32 13.9 31.1 14.2 L28.8 10.6 L29.6 15.6 Q28.5 17.5 29 20 Z"/></symbol>
 </defs>
 <rect width="1024" height="1024" fill="url(#bg)"/>
-<!-- stacked card behind (flip deck) -->
+<g transform="translate(512 512) scale(1.42) translate(-512 -540)"><!-- stacked card behind (flip deck) -->
 <rect x="292" y="300" width="440" height="540" rx="60" fill="#2a2830"/><rect x="292" y="300" width="440" height="540" rx="60" fill="none" stroke="#c8a862" stroke-opacity=".18" stroke-width="3"/>
 <g filter="url(#sh)">
  <rect x="252" y="232" width="520" height="560" rx="72" fill="url(#bot)"/>
@@ -24,4 +24,4 @@
 <rect x="252" y="505" width="520" height="14" fill="#07080a"/>
 <rect x="244" y="478" width="22" height="68" rx="6" fill="#07080a"/>
 <rect x="758" y="478" width="22" height="68" rx="6" fill="#07080a"/>
-</svg>
+</g></svg>
