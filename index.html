@@ -282,10 +282,6 @@ body[data-sheet="subj"] .modal{opacity:1;pointer-events:auto;transform:translate
   <div class="row">Auto-start focus<button class="tog" data-k="autoFocus"></button></div>
   <div class="row">Chime<button class="tog" data-k="sound"></button></div>
 
-  <h3>My subjects</h3>
-  <div class="mysubj" id="mySubj"></div>
-  <div class="addrow"><input id="addSubjInput" maxlength="32" placeholder="Add a subject, e.g. CCNA" autocomplete="off" autocapitalize="words" enterkeyhint="done"><button id="addSubjBtn">Add</button></div>
-
   <h3>Clock</h3>
   <div class="row">24-hour time<button class="tog" data-k="h24"></button></div>
   <div class="row">Show seconds<button class="tog" data-k="secs"></button></div>
@@ -312,6 +308,9 @@ body[data-sheet="subj"] .modal{opacity:1;pointer-events:auto;transform:translate
   <div class="week" id="week"></div>
   <h3>Subjects · last 7 days</h3>
   <div id="subjects"></div>
+  <h3>My subjects</h3>
+  <div class="mysubj" id="mySubj"></div>
+  <div class="addrow"><input id="addSubjInput" maxlength="32" placeholder="Add a subject, e.g. CCNA" autocomplete="off" autocapitalize="words" enterkeyhint="done"><button id="addSubjBtn">Add</button></div>
   <h3>Recent sessions</h3>
   <div class="log" id="log"></div>
   <button class="danger" id="btnWipe">Reset all stats</button>
@@ -613,7 +612,7 @@ const doAdd = () => { const v = $('addSubjInput').value; if (v.trim()){ addSubje
 $('addSubjBtn').onclick = doAdd;
 $('addSubjInput').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); doAdd(); } e.stopPropagation(); });
 $('subjInput').addEventListener('input', renderChips);
-$('subjManage').onclick = () => { $('subjInput').blur(); openSheet('settings'); setTimeout(() => $('addSubjInput').scrollIntoView({block:'center'}), 350); };
+$('subjManage').onclick = () => { $('subjInput').blur(); renderStats(); openSheet('stats'); setTimeout(() => $('addSubjInput').scrollIntoView({block:'center'}), 350); };
 $('btnSubj').onclick = () => {
   $('subjInput').value = '';
   $('subjInput').placeholder = S.subject ? 'Current: ' + S.subject + ' — type to search or add' : 'Type to search or add a subject';
