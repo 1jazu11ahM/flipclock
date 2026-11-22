@@ -6,4 +6,5 @@ Stylish flip clock with a built-in Pomodoro timer, optimized for iPad.
 - Clock: 12/24h, optional seconds, day + date
 - Pomodoro: focus/short/long breaks, session dots, progress bar, chime, auto-start
 - Keeps the iPad awake while running; 6 themes; works offline
-- Keyboard: Space start/pause, R reset, S skip, C/P switch mode
+- Study tracking: subjects, daily goal ring, 7-day chart, streak, recent sessions
+- Keyboard: T stats, Space start/pause, R reset, S skip, C/P switch mode
